@@ -6,9 +6,20 @@ import plotly.express as px
 from dotenv import load_dotenv
 import os
 from typing import Dict, List
-from claims_analysis_agent import ClaimsAnalysisAgent
-from policy_validation_agent import PolicyValidationAgent
+from agents.claims_analysis_agent import ClaimsAnalysisAgent
+from agents.policy_validation_agent import PolicyValidationAgent
 from utils.data_loader import DataLoader
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('app.log'),
+        logging.StreamHandler()
+    ]
+)
 # Load environment variables
 load_dotenv()
 
@@ -56,6 +67,27 @@ st.markdown("""
 
 def initialize_agents():
     """Initialize all required agents"""
+    if 'claims_agent' not in st.session_state:
+        with st.spinner("Initializing Claims Analysis System..."):
+            try:
+                claims_agent = ClaimsAnalysisAgent(groq_api_key)
+                
+                # Load initial data
+                claims_data = claims_agent.data_loader.load_claims_history()
+                if claims_data:
+                    st.session_state.claims_agent = claims_agent
+                    st.success("Claims Analysis System initialized successfully!")
+                else:
+                    st.error("No claims data found. Please check your data files.")
+                    return
+                    
+            except Exception as e:
+                st.error(f"Error initializing Claims Analysis System: {str(e)}")
+                return
+    
+    if 'policy_agent' not in st.session_state:
+        st.session_state.policy_agent = PolicyValidationAgent(groq_api_key)
+
     if 'claims_agent' not in st.session_state:
         st.session_state.claims_agent = ClaimsAnalysisAgent(groq_api_key)
     
@@ -262,14 +294,54 @@ def render_claim_analysis(claim_details: Dict):
         
         # Settlement suggestion
         with st.spinner("Calculating suggested settlement..."):
-            suggested_settlement = st.session_state.claims_agent.suggest_settlement_amount(claim_details)
-            st.info(f"""
-            💰 Suggested Settlement:
-            ${suggested_settlement:,.2f}
-            
-            Original Claim: ${claim_details['amount']:,.2f}
-            Settlement Ratio: {(suggested_settlement/claim_details['amount']*100):.1f}%
-            """)
+            try:
+                suggested_settlement, explanation = st.session_state.claims_agent.suggest_settlement_amount(claim_details)
+                
+                st.info(f"""
+                💰 Suggested Settlement:
+                ${suggested_settlement:,.2f}
+                
+                Original Claim: ${claim_details['amount']:,.2f}
+                Settlement Ratio: {(suggested_settlement/claim_details['amount']*100):.1f}%
+                """)
+                
+                with st.expander("📝 Settlement Analysis"):
+                    st.markdown(explanation)
+                
+                # Get additional metrics
+                metrics = st.session_state.claims_agent.get_settlement_metrics(claim_details)
+                
+                if metrics and not metrics.get("error"):
+                    st.success("📊 Settlement Metrics")
+                    
+                    if metrics.get("average_processing_time"):
+                        st.metric(
+                            "Avg. Processing Time",
+                            f"{metrics['average_processing_time']:.1f} days"
+                        )
+                    
+                    if metrics.get("approval_rate"):
+                        st.metric(
+                            "Approval Rate",
+                            f"{metrics['approval_rate']:.1f}%"
+                        )
+                    
+                    if metrics.get("settlement_range"):
+                        range_data = metrics["settlement_range"]
+                        if all(v is not None for v in range_data.values()):
+                            st.write("Settlement Range:")
+                            st.write(f"Min: ${range_data['min']:,.2f}")
+                            st.write(f"Avg: ${range_data['avg']:,.2f}")
+                            st.write(f"Max: ${range_data['max']:,.2f}")
+                    
+                    if metrics.get("confidence_score"):
+                        st.metric(
+                            "Confidence Score",
+                            f"{metrics['confidence_score']:.2f}"
+                        )
+                
+            except Exception as e:
+                st.error(f"Error calculating settlement: {str(e)}")
         
         # Document check
         required_docs = st.session_state.claims_agent.get_required_documents(claim_details['claim_type'])
