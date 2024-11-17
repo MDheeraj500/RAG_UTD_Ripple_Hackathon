@@ -1,0 +1,38 @@
+[
+    {
+        "claim_id": "CLM20230101001",
+        "claim_type": "Medical",
+        "amount": 5000.00,
+        "date_filed": "2023-01-01",
+        "status": "Approved",
+        "description": "Emergency room visit for acute appendicitis",
+        "settlement_amount": 4800.00,
+        "processing_time": 5,
+        "red_flags": "None",
+        "documents_provided": ["Medical Report", "Hospital Bill", "Insurance Card"]
+    },
+    {
+        "claim_id": "CLM20230115002",
+        "claim_type": "Medical",
+        "amount": 2500.00,
+        "date_filed": "2023-01-15",
+        "status": "Denied",
+        "description": "Elective cosmetic procedure",
+        "settlement_amount": 0.00,
+        "processing_time": 3,
+        "red_flags": "Not covered under policy",
+        "documents_provided": ["Procedure Quote", "Doctor's Note"]
+    },
+    {
+        "claim_id": "CLM20230202003",
+        "claim_type": "Prescription",
+        "amount": 750.00,
+        "date_filed": "2023-02-02",
+        "status": "Approved",
+        "description": "Monthly prescription medication",
+        "settlement_amount": 600.00,
+        "processing_time": 2,
+        "red_flags": "None",
+        "documents_provided": ["Prescription", "Pharmacy Bill"]
+    }
+]
