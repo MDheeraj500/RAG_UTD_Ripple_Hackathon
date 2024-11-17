@@ -28,7 +28,7 @@ groq_api_key = os.getenv('GROQ_API_KEY')
 
 # Set page config
 st.set_page_config(
-    page_title="Insurance Claims Advisor",
+    page_title="Xtended Meridian",
     page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -356,7 +356,7 @@ def render_claim_analysis(claim_details: Dict):
             st.success("📎 All required documents provided")
 
 def main():
-    st.title("🏥 Insurance Claims Advisor")
+    st.title("🏥 Xtended Meridian")
     
     # Initialize agents
     initialize_agents()
@@ -365,10 +365,10 @@ def main():
     st.sidebar.title("Navigation")
     page = st.sidebar.radio(
         "Select Page",
-        ["New Claim", "Historical Analysis", "Policy Lookup"]
+        ["Claim Analysis", "Historical Analysis", "Policy Lookup"]
     )
     
-    if page == "New Claim":
+    if page == "Claim Analysis":
         claim_details = render_claim_form()
         if claim_details:
             render_claim_analysis(claim_details)
