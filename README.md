@@ -100,8 +100,10 @@ http://localhost:8501
 
 ---
 
-## Demo Link
-https://xtended-meridian-rag.streamlit.app/
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
 
 1. **Fork the repository.**
 2. **Create a new branch** (`feature/your-feature`).
@@ -109,3 +111,5 @@ https://xtended-meridian-rag.streamlit.app/
 4. **Submit a pull request.**
 
 ---
+## Demo Link
+https://xtended-meridian-rag.streamlit.app/
