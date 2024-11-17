@@ -1,0 +1,96 @@
+{
+    "POL001": {
+        "policy_number": "POL001",
+        "policy_type": "Health Insurance",
+        "policyholder": "John Doe",
+        "status": "Active",
+        "effective_date": "2024-01-01",
+        "expiration_date": "2024-12-31",
+        "coverage_limit": 100000.00,
+        "remaining_coverage": 95000.00,
+        "deductible": 1000.00,
+        "coverage_details": {
+            "emergency_care": true,
+            "preventive_care": true,
+            "prescription_drugs": true,
+            "specialist_visits": true,
+            "hospital_stays": true
+        },
+        "exclusions": [
+            "Cosmetic procedures",
+            "Experimental treatments",
+            "Pre-existing conditions (first 6 months)",
+            "Non-medical services"
+        ],
+        "documentation_requirements": {
+            "emergency_claims": [
+                "Hospital admission report",
+                "Medical bills",
+                "Treatment records",
+                "Physician statements"
+            ],
+            "prescription_claims": [
+                "Prescription copy",
+                "Pharmacy receipt",
+                "Doctor's prescription note"
+            ],
+            "specialist_claims": [
+                "Referral letter",
+                "Specialist report",
+                "Treatment plan",
+                "Medical bills"
+            ]
+        },
+        "waiting_periods": {
+            "elective_surgery": 60,
+            "maternity": 270,
+            "dental": 90
+        }
+    },
+    "POL002": {
+        "policy_number": "POL002",
+        "policy_type": "Health Insurance",
+        "policyholder": "Jane Smith",
+        "status": "Active",
+        "effective_date": "2024-02-01",
+        "expiration_date": "2025-01-31",
+        "coverage_limit": 150000.00,
+        "remaining_coverage": 150000.00,
+        "deductible": 500.00,
+        "coverage_details": {
+            "emergency_care": true,
+            "preventive_care": true,
+            "prescription_drugs": true,
+            "specialist_visits": true,
+            "hospital_stays": true,
+            "dental": true,
+            "vision": true
+        },
+        "exclusions": [
+            "Cosmetic procedures",
+            "Experimental treatments",
+            "Non-medical services"
+        ],
+        "documentation_requirements": {
+            "emergency_claims": [
+                "Hospital admission report",
+                "Medical bills",
+                "Treatment records"
+            ],
+            "prescription_claims": [
+                "Prescription copy",
+                "Pharmacy receipt"
+            ],
+            "specialist_claims": [
+                "Referral letter",
+                "Specialist report",
+                "Medical bills"
+            ]
+        },
+        "waiting_periods": {
+            "elective_surgery": 30,
+            "maternity": 180,
+            "dental": 60
+        }
+    }
+}
